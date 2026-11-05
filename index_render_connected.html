@@ -5145,3 +5145,30 @@ document.getElementById("mpFullscreen").onclick = async () => {
   }
 };
 </script>
+<style>
+/* COMPUTER FULL SCREEN */
+@media (min-width: 431px) {
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+
+  #game, .game {
+    width: 100vw !important;
+    min-height: 100vh !important;
+    margin: 0 auto !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .pokerTable {
+    width: 96vw !important;
+    height: min(70vh, 760px) !important;
+    max-width: 1600px !important;
+    margin: 12px auto !important;
+  }
+}
+</style>
