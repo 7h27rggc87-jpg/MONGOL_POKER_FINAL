@@ -4,83 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mongol Poker</title>
-
-<style id="desktop-full-width-fix">
-@media (min-width: 768px) {
-  /* Дэлгэцийг бүтэн болгох */
-  .app, .home, .cash, .game, .admin, .auth, .screen {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  /* ★★★ ЛОГИН ХАЙРЦАГ (AuthCard) ХЭСГИЙГ ГОЛЛУУЛАХ, ХЭТ СУНАХААС ХАМГААЛАХ ★★★ */
-  .authCard {
-    max-width: 550px !important; /* Хэт өргөн болохгүй */
-    width: 90% !important;
-    margin: 40px auto !important; /* Яг голлуулна */
-    padding: 30px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Доод цэс */
-  .bottom {
-    max-width: 100% !important;
-    width: 100% !important;
-    left: 0 !important;
-    transform: none !important;
-  }
-  
-  /* Өрөөнүүдийн жагсаалт (Lobby) */
-  .tables {
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-    gap: 20px !important;
-  }
-
-  /* Покер ширээг төвд байрлуулах, хэт томрохоос хамгаалах */
-  .pokerTable {
-    width: 90% !important;
-    max-width: 1000px !important; 
-    margin: 10px auto 0 !important; 
-    height: min(65vh, 600px) !important;
-  }
-  
-  /* Товчнуудыг ширээний доор төвд байрлуулах */
-  .actionBar {
-    max-width: 1000px !important;
-    margin: 15px auto !important;
-    border-radius: 10px !important;
-  }
-  
-  /* Гар (hole cards) */
-  .mycards .card {
-    width: 65px !important;
-    height: 90px !important;
-    font-size: 26px !important;
-  }
-  
-  /* Community cards */
-  .board .card {
-    width: 50px !important;
-    height: 70px !important;
-    font-size: 22px !important;
-  }
-}
-</style>
-
 </head>
-<body>
-<div id="loading">Mongol Poker ачаалж байна…</div>
+<body style="margin:0; padding:0;">
 <script>
 (async()=>{
- try{
-  // Таны бүх тоглоом энэ файл дотор байгаа
-  const r=await fetch('./index_render_connected.html?rollback=20261013',{cache:'no-store'});
-  if(!r.ok)throw new Error('Үндсэн файл олдсонгүй: '+r.status);
-  const html=await r.text();
-  document.open();document.write(html);document.close();
- }catch(e){document.getElementById('loading').textContent='Сайт ачаалж чадсангүй: '+e.message;console.error(e)}
+  const r = await fetch('./index_render_connected.html', {cache:'no-store'});
+  const html = await r.text();
+  document.open(); document.write(html); document.close();
 })();
 </script>
 </body>
