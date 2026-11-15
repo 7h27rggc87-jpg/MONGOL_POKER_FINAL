@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mongol Poker</title>
+<style>
+:root{
+  --bg:#0a0e0c;--panel:#1a3a2a;--gold:#d4a017;--text:#fff;
+  --green:#14955b;--red:#8b2e2e;--muted:#8aaa9a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;min-height:100%;margin:0;padding:0;
+  background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+.hidden{display:none!important}
+button{font:inherit;cursor:pointer}
+input,select{font:inherit}
+
+/* ===== LOGIN ===== */
+#login{
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 30%,#1a4d3a,#06120c);
+  padding:20px;min-height:100vh;
+}
+.login-box{
+  background:rgba(20,30,25,.95);
+  border:2px solid #2a6b4a;border-radius:12px;
+  padding:30px;width:100%;max-width:420px;
+  box-shadow:0 0 30px rgba(0,0,0,.8);
+}
+.logo{
+  font-size:42px;font-weight:900;color:var(--gold);
+  text-align:center;margin-bottom:8px;
+  text-shadow:0 0 20px rgba(212,160,23,.5);
+}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:24px;font-size:14px}
+.tab{display:flex;gap:8px;margin-bottom:16px}
+.tab button{
+  flex:1;padding:10px;background:#0a1a12;
+  border:1px solid #2a6b4a;color:var(--muted);
+  border-radius:6px;font-size:14px;
+}
+.tab button.active{background:var(--panel);color:var(--gold);border-color:var(--gold)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.field input{
+  width:100%;padding:12px;background:#0a1a12;
+  border:1px solid #2a6b4a;color:#fff;
+  border-radius:6px;font-size:16px;
+}
+.btn{
+  width:100%;padding:14px;
+  background:linear-gradient(180deg,#d4a017,#a67c00);
+  border:none;border-radius:6px;color:#000;
+  font-weight:900;font-size:16px;text-transform:uppercase;
+  letter-spacing:1px;margin-top:8px;
+}
+.btn:hover{background:linear-gradient(180deg,#e6b830,#d4a017)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.msg{text-align:center;margin-top:12px;font-size:13px;min-height:18px}
+.msg.err{color:#e74c3c}
+.msg.ok{color:#2ecc71}
+
+/* ===== LOBBY ===== */
+#lobby{
+  background:linear-gradient(180deg,#0a1a12,#06120c);
+  padding:20px;min-height:100vh;
+}
+.lobby-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 20px;background:rgba(212,160,23,.1);
+  border:1px solid #2a6b4a;border-radius:8px;
+  margin-bottom:20px;flex-wrap:wrap;gap:10px;
+  max-width:1200px;margin-left:auto;margin-right:auto;
+}
+.lobby-header .title{color:var(--gold);font-size:20px;font-weight:900}
+.lobby-header .user-info{display:flex;align-items:center;gap:12px;font-size:14px;flex-wrap:wrap}
+.lobby-header .chips{background:var(--panel);padding:8px 16px;border-radius:20px;color:var(--gold);font-weight:700}
+.lobby-header .logout{background:var(--red);border:none;color:#fff;padding:8px 14px;border-radius:6px;font-size:13px}
+.tables-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;max-width:1200px;margin:0 auto;
+}
+.table-card{
+  background:linear-gradient(180deg,#1a3a2a,#0f2419);
+  border:2px solid #2a6b4a;border-radius:12px;
+  padding:20px;cursor:pointer;transition:all .2s;
+}
+.table-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(212,160,23,.3);border-color:var(--gold)}
+.table-card h3{color:var(--gold);margin-bottom:10px;font-size:18px}
+.table-card .info{color:var(--muted);font-size:14px;margin:4px 0}
+.table-card .join-btn{
+  margin-top:12px;padding:10px;
+  background:linear-gradient(180deg,#d4a017,#a67c00);
+  border:none;border-radius:6px;color:#000;
+  font-weight:700;width:100%;
+}
+
+/* ===== ADMIN PANEL ===== */
+#admin{
+  background:linear-gradient(180deg,#0a1a12,#06120c);
+  padding:20px;min-height:100vh;
+}
+.admin-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 20px;background:rgba(212,160,23,.1);
+  border:1px solid #2a6b4a;border-radius:8px;
+  margin-bottom:20px;flex-wrap:wrap;gap:10px;
+  max-width:1200px;margin-left:auto;margin-right:auto;
+}
+.admin-header h2{color:var(--gold);font-size:20px}
+.admin-section{
+  max-width:1200px;margin:0 auto 20px;
+  background:var(--panel);border:1px solid #2a6b4a;
+  border-radius:8px;padding:20px;
+}
+.admin-section h3{color:var(--gold);margin-bottom:16px;font-size:16px}
+.admin-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid rgba(138,170,154,.2);
+  flex-wrap:wrap;gap:10px;
+}
+.admin-row:last-child{border-bottom:none}
+.admin-row .label{font-size:14px;color:var(--muted)}
+.admin-row .value{font-size:16px;font-weight:700;color:var(--gold)}
+.admin-btn{
+  padding:8px 16px;background:linear-gradient(180deg,#d4a017,#a67c00);
+  border:none;border-radius:6px;color:#000;
+  font-weight:700;font-size:13px;
+}
+.admin-btn.red{background:linear-gradient(180deg,#e74c3c,#c0392b);color:#fff}
+.admin-input{
+  padding:10px;background:#0a1a12;border:1px solid #2a6b4a;
+  color:#fff;border-radius:6px;font-size:14px;
+  width:120px;
+}
+
+/* ===== DESKTOP FULL SCREEN ===== */
+@media (min-width: 431px) {
+  #lobby, #admin {
+    max-width: 100%;
+    padding: 30px;
+  }
+  .tables-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #lobby, #admin {
+    padding: 40px;
+  }
+  .lobby-header, .admin-header {
+    max-width: 1400px;
+  }
+  .tables-grid {
+    max-width: 1400px;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+}
+</style>
+</head><body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login" class="screen active">
+  <div class="login-box">
+    <div class="logo">♠ MONGOL POKER ♥</div>
+    <div class="subtitle">Texas Hold'em & Omaha</div>
+    
+    <div class="tab">
+      <button id="tabLogin" class="active" onclick="switchTab('login')">Нэвтрэх</button>
+      <button id="tabRegister" onclick="switchTab('register')">Бүртгүүлэх</button>
+    </div>
+    
+    <!-- Login form -->
+    <div id="loginForm">
+      <div class="field">
+        <label>Нэр</label>
+        <input id="loginUser" type="text" placeholder="admin" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Нууц үг</label>
+        <input id="loginPass" type="password" placeholder="••••" autocomplete="current-password">
+      </div>
+      <button class="btn" id="loginBtn" onclick="doLogin()">Нэвтрэх</button>
+      <div class="msg" id="loginMsg"></div>
+    </div>
+    
+    <!-- Register form -->
+    <div id="registerForm" class="hidden">
+      <div class="field">
+        <label>Нэр</label>
+        <input id="regUser" type="text" placeholder="Таны нэр">
+      </div>
+      <div class="field">
+        <label>Нууц үг</label>
+        <input id="regPass" type="password" placeholder="Дор хаяж 4 тэмдэгт">
+      </div>
+      <div class="field">
+        <label>Нууц үг (дахин)</label>
+        <input id="regPass2" type="password" placeholder="Дахин оруулна уу">
+      </div>
+      <button class="btn" id="registerBtn" onclick="doRegister()">Бүртгүүлэх</button>
+      <div class="msg" id="registerMsg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOBBY SCREEN ===== -->
+<div id="lobby" class="screen">
+  <div class="lobby-header">
+    <div class="title">♠ Mongol Poker</div>
+    <div class="user-info">
+      <span id="userName">Тоглогч</span>
+      <span class="chips" id="userChips">💰 0</span>
+      <button class="logout" onclick="doLogout()">Гарах</button>
+    </div>
+  </div>
+  
+  <div class="tables-grid" id="tablesGrid">
+    <!-- Tables will be rendered here by JavaScript -->
+  </div>
+</div>
+
+<!-- ===== GAME SCREEN ===== -->
+<div id="game" class="screen">
+  <div class="game-top">
+    <div class="info" id="gameInfo">Ширээ</div>
+    <div class="info" id="gamePot">Pot: 0</div>
+    <button class="leave-btn" onclick="leaveTable()">Гарах</button>
+  </div>
+  
+  <div class="table-wrap">
+    <div class="poker-table" id="pokerTable">
+      <!-- Seats rendered by JS -->
+      <div class="center">
+        <div class="pot" id="potDisplay">Pot: 0</div>
+        <div class="board" id="board"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="status-msg" id="statusMsg">Хүлээж байна...</div>
+  
+  <div class="actions" id="actions">
+    <button class="btn-fold" onclick="doAction('fold')">Fold</button>
+    <button class="btn-check" onclick="doAction('check')">Check</button>
+    <button class="btn-call" onclick="doAction('call')">Call</button>
+    <button class="btn-raise" onclick="toggleRaise()">Raise</button>
+  </div>
+  
+  <div class="raise-panel" id="raisePanel">
+    <input id="raiseAmount" type="number" value="100" min="50" step="50">
+    <button onclick="doRaise()">Raise</button>
+    <button onclick="toggleRaise()" style="background:#555">Болих</button>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="admin" class="screen">
+  <div class="admin-header">
+    <h2>⚙️ Admin Panel</h2>
+    <button class="logout" onclick="show('lobby')">← Буцах</button>
+  </div>
+  
+  <div class="admin-section">
+    <h3>👤 Хэрэглэгч</h3>
+    <div class="admin-row">
+      <span class="label">Нэр</span>
+      <span class="value" id="adminUserName">-</span>
+    </div>
+    <div class="admin-row">
+      <span class="label">Чип</span>
+      <span class="value" id="adminUserChips">0</span>
+    </div>
+    <div class="admin-row">
+      <span class="label">Чип нэмэх</span>
+      <div>
+        <input class="admin-input" id="addChipsAmount" type="number" value="10000" min="1">
+        <button class="admin-btn" onclick="addChips()">Нэмэх</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="admin-section">
+    <h3>🤖 Bot удирдах</h3>
+    <div class="admin-row">
+      <span class="label">Bot нэмэх</span>
+      <button class="admin-btn" onclick="adminAddBot()">+ Bot нэмэх</button>
+    </div>
+    <div class="admin-row">
+      <span class="label">Bot-ууд</span>
+      <span class="value" id="adminBotCount">0</span>
+    </div>
+  </div>
+  
+  <div class="admin-section">
+    <h3>📊 Статистик</h3>
+    <div class="admin-row">
+      <span class="label">Нийт тоглогч</span>
+      <span class="value" id="adminTotalPlayers">0</span>
+    </div>
+    <div class="admin-row">
+      <span class="label">Идэвхтэй ширээ</span>
+      <span class="value" id="adminActiveTables">0</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GAME CSS (2-р хэсэгт нэмэх) ===== -->
+<style>
+/* GAME SCREEN */
+#game{
+  background:radial-gradient(ellipse at center,#0d5c3a 0%,#052418 70%);
+  padding:10px;min-height:100vh;
+  display:flex;flex-direction:column;
+}
+.game-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 20px;background:rgba(0,0,0,.5);
+  border-radius:8px;margin-bottom:10px;flex-wrap:wrap;gap:8px;
+}
+.game-top .info{color:var(--gold);font-weight:700}
+.game-top .leave-btn{
+  background:var(--red);border:none;color:#fff;
+  padding:8px 16px;border-radius:6px;font-size:13px;
+}
+.table-wrap{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  position:relative;min-height:400px;
+}
+.poker-table{
+  width:100%;max-width:1000px;height:480px;
+  background:radial-gradient(ellipse at center,#14955b 0%,#087342 60%,#061a10 90%);
+  border:10px solid #42494d;border-radius:50%/35%;
+  position:relative;box-shadow:inset 0 0 60px #000,0 20px 40px rgba(0,0,0,.6);
+}
+.seat{position:absolute;width:100px;text-align:center;transition:all .3s}
+.seat.s0{bottom:-20px;left:50%;transform:translateX(-50%)}
+.seat.s1{bottom:80px;left:10px}
+.seat.s2{top:80px;left:10px}
+.seat.s3{top:-20px;left:50%;transform:translateX(-50%)}
+.seat.s4{top:80px;right:10px}
+.seat.s5{bottom:80px;right:10px}
+.seat .avatar{
+  width:56px;height:56px;border-radius:50%;background:#fff;color:#000;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 4px;
+  border:3px solid var(--gold);box-shadow:0 0 10px rgba(0,0,0,.8);
+}
+.seat.active .avatar{
+  border-color:#00ff88;box-shadow:0 0 20px #00ff88;
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 20px #00ff88}
+  50%{box-shadow:0 0 40px #00ff88}
+}
+.seat .name{
+  color:#fff;font-weight:700;font-size:12px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.seat .chips{
+  background:#5c2a5d;padding:2px 8px;border-radius:10px;
+  font-size:11px;display:inline-block;margin-top:3px;color:#fff;
+}
+.seat .bet{
+  background:var(--gold);color:#000;padding:2px 8px;
+  border-radius:10px;font-size:11px;font-weight:700;
+  display:inline-block;margin-top:2px;
+}
+.seat.folded{opacity:.4}
+.seat .cards{display:flex;gap:2px;justify-content:center;margin-top:4px}
+.seat .card{width:24px;height:34px;font-size:14px;border-radius:3px}
+.center{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);text-align:center;
+}
+.pot{
+  font-size:24px;font-weight:900;color:var(--gold);
+  text-shadow:0 2px 4px #000;margin-bottom:12px;
+}
+.board{display:flex;gap:6px;justify-content:center}
+.card{
+  width:56px;height:78px;background:#fff;color:#000;
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:900;
+  box-shadow:0 4px 8px rgba(0,0,0,.5);transition:transform .3s;
+}
+.card.red{color:#d32f2f}
+.card.blank{background:rgba(255,255,255,.1);border:2px dashed rgba(255,255,255,.3);color:transparent}
+.actions{
+  display:flex;gap:10px;justify-content:center;
+  padding:16px;background:rgba(0,0,0,.7);
+  border-radius:12px;margin-top:10px;flex-wrap:wrap;
+}
+.actions button{
+  padding:12px 24px;border:none;border-radius:8px;
+  font-size:14px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;transition:transform .1s;
+}
+.actions button:active{transform:scale(.95)}
+.btn-fold{background:#8b2e2e;color:#fff}
+.btn-check{background:#2e7d32;color:#fff}
+.btn-call{background:#1565c0;color:#fff}
+.btn-raise{background:linear-gradient(180deg,#d4a017,#a67c00);color:#000}
+.actions button:disabled{opacity:.4;cursor:not-allowed}
+.raise-panel{
+  display:none;gap:10px;padding:10px;
+  justify-content:center;align-items:center;
+}
+.raise-panel.show{display:flex}
+.raise-panel input{
+  width:120px;padding:10px;background:#0a1a12;
+  border:1px solid #2a6b4a;color:#fff;
+  border-radius:6px;font-size:16px;text-align:right;
+}
+.raise-panel button{
+  padding:10px 20px;background:linear-gradient(180deg,#d4a017,#a67c00);
+  border:none;border-radius:6px;color:#000;
+  font-weight:700;
+}
+.status-msg{
+  text-align:center;padding:10px;color:var(--gold);
+  font-size:16px;font-weight:700;min-height:20px;
+}
+</style>
+1. <!DOCTYPE html> → <head> → CSS (login, lobby)
+2. <body> → HTML (login, lobby, game, admin)
+3. <script> → JavaScript (Firebase, game logic)
+4. </body> → </html>
