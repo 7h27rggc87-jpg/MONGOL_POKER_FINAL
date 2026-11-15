@@ -1,5 +1,44 @@
 <!doctype html>
-<html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mongol Poker</title></head>
+<html lang="mn"><style id="desktop-full-width-fix">
+@media (min-width: 768px) {
+  /* Үндсэн контейнеруудыг бүтэн дэлгэц болгох */
+  .app, .home, .cash, .game, .admin, .auth, .screen {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  /* Доод цэс */
+  .bottom {
+    max-width: 100% !important;
+    width: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+  /* Покер ширээг томсгох */
+  .pokerTable {
+    width: calc(100% - 40px) !important;
+    max-width: 1200px !important;
+    margin: 10px auto 0 !important;
+    height: min(70vh, 700px) !important;
+  }
+  /* Action bar */
+  .actionBar {
+    max-width: 1200px !important;
+    margin: 10px auto !important;
+  }
+  /* Гар (hole cards) томсгох */
+  .mycards .card {
+    width: 72px !important;
+    height: 102px !important;
+    font-size: 30px !important;
+  }
+  /* Community cards томсгох */
+  .board .card {
+    width: 56px !important;
+    height: 78px !important;
+    font-size: 24px !important;
+  }
+}
+</style><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mongol Poker</title></head>
 <body><div id="loading">Mongol Poker ачаалж байна…</div>
 <script>
 (async()=>{
