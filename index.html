@@ -7,17 +7,19 @@
 
 <style id="desktop-full-width-fix">
 @media (min-width: 768px) {
-  /* Үндсэн контейнеруудыг бүтэн дэлгэц болгох */
+  /* Дэлгэцийг бүтэн болгох */
   .app, .home, .cash, .game, .admin, .auth, .screen {
     max-width: 100% !important;
     width: 100% !important;
   }
-  
-  /* Логин хайрцаг болон контентыг төвд байрлуулах */
+
+  /* ★★★ ЛОГИН ХАЙРЦАГ (AuthCard) ХЭСГИЙГ ГОЛЛУУЛАХ, ХЭТ СУНАХААС ХАМГААЛАХ ★★★ */
   .authCard {
-    max-width: 600px !important;
-    margin: 40px auto !important;
+    max-width: 550px !important; /* Хэт өргөн болохгүй */
+    width: 90% !important;
+    margin: 40px auto !important; /* Яг голлуулна */
     padding: 30px !important;
+    box-sizing: border-box !important;
   }
 
   /* Доод цэс */
@@ -36,11 +38,11 @@
     gap: 20px !important;
   }
 
-  /* ПОКЕР ШИРЭЭГ ТӨВД БАЙРЛУУЛАХ, ХЭТЭРХИЙ ТОМ БОЛОХООС ХАМГААЛАХ */
+  /* Покер ширээг төвд байрлуулах, хэт томрохоос хамгаалах */
   .pokerTable {
     width: 90% !important;
-    max-width: 1000px !important; /* Хэтэрхий өргөн болохоос хамгаална */
-    margin: 10px auto 0 !important; /* Голлуулна */
+    max-width: 1000px !important; 
+    margin: 10px auto 0 !important; 
     height: min(65vh, 600px) !important;
   }
   
@@ -73,6 +75,7 @@
 <script>
 (async()=>{
  try{
+  // Таны бүх тоглоом энэ файл дотор байгаа
   const r=await fetch('./index_render_connected.html?rollback=20261013',{cache:'no-store'});
   if(!r.ok)throw new Error('Үндсэн файл олдсонгүй: '+r.status);
   const html=await r.text();
