@@ -1,5 +1,11 @@
 <!doctype html>
-<html lang="mn"><style id="desktop-full-width-fix">
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mongol Poker</title>
+
+<style id="desktop-full-width-fix">
 @media (min-width: 768px) {
   /* Үндсэн контейнеруудыг бүтэн дэлгэц болгох */
   .app, .home, .cash, .game, .admin, .auth, .screen {
@@ -38,8 +44,11 @@
     font-size: 24px !important;
   }
 }
-</style><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mongol Poker</title></head>
-<body><div id="loading">Mongol Poker ачаалж байна…</div>
+</style>
+
+</head>
+<body>
+<div id="loading">Mongol Poker ачаалж байна…</div>
 <script>
 (async()=>{
  try{
@@ -49,4 +58,6 @@
   document.open();document.write(html);document.close();
  }catch(e){document.getElementById('loading').textContent='Сайт ачаалж чадсангүй: '+e.message;console.error(e)}
 })();
-</script></body></html>
+</script>
+</body>
+</html>
