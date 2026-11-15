@@ -12,6 +12,14 @@
     max-width: 100% !important;
     width: 100% !important;
   }
+  
+  /* Логин хайрцаг болон контентыг төвд байрлуулах */
+  .authCard {
+    max-width: 600px !important;
+    margin: 40px auto !important;
+    padding: 30px !important;
+  }
+
   /* Доод цэс */
   .bottom {
     max-width: 100% !important;
@@ -19,29 +27,42 @@
     left: 0 !important;
     transform: none !important;
   }
-  /* Покер ширээг томсгох */
+  
+  /* Өрөөнүүдийн жагсаалт (Lobby) */
+  .tables {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 20px !important;
+  }
+
+  /* ПОКЕР ШИРЭЭГ ТӨВД БАЙРЛУУЛАХ, ХЭТЭРХИЙ ТОМ БОЛОХООС ХАМГААЛАХ */
   .pokerTable {
-    width: calc(100% - 40px) !important;
-    max-width: 1200px !important;
-    margin: 10px auto 0 !important;
-    height: min(70vh, 700px) !important;
+    width: 90% !important;
+    max-width: 1000px !important; /* Хэтэрхий өргөн болохоос хамгаална */
+    margin: 10px auto 0 !important; /* Голлуулна */
+    height: min(65vh, 600px) !important;
   }
-  /* Action bar */
+  
+  /* Товчнуудыг ширээний доор төвд байрлуулах */
   .actionBar {
-    max-width: 1200px !important;
-    margin: 10px auto !important;
+    max-width: 1000px !important;
+    margin: 15px auto !important;
+    border-radius: 10px !important;
   }
-  /* Гар (hole cards) томсгох */
+  
+  /* Гар (hole cards) */
   .mycards .card {
-    width: 72px !important;
-    height: 102px !important;
-    font-size: 30px !important;
+    width: 65px !important;
+    height: 90px !important;
+    font-size: 26px !important;
   }
-  /* Community cards томсгох */
+  
+  /* Community cards */
   .board .card {
-    width: 56px !important;
-    height: 78px !important;
-    font-size: 24px !important;
+    width: 50px !important;
+    height: 70px !important;
+    font-size: 22px !important;
   }
 }
 </style>
