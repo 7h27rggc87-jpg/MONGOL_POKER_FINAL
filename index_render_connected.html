@@ -1,7 +1,43 @@
 
 <!doctype html>
 <html lang="mn">
-<head>
+<style id="desktop-full-width-fix">
+@media (min-width: 768px) {
+  .app, .home, .cash, .game, .admin, .auth, .screen {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .authCard {
+    max-width: 550px !important;
+    width: 90% !important;
+    margin: 40px auto !important; 
+  }
+  .bottom {
+    max-width: 100% !important;
+    width: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+  .tables {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 20px !important;
+  }
+  .pokerTable {
+    width: 90% !important;
+    max-width: 1000px !important; 
+    margin: 10px auto 0 !important; 
+    height: min(65vh, 600px) !important;
+  }
+  .actionBar {
+    max-width: 1000px !important;
+    margin: 15px auto !important;
+    border-radius: 10px !important;
+  }
+}
+</style>
+  <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mongol Poker</title>
