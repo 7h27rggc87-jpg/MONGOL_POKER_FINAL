@@ -4,27 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mongol Poker</title>
-<style>
-@media (min-width: 768px) {
-  html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
-  .authCard { max-width: 800px !important; width: 90% !important; margin: 40px auto !important; }
-}
-</style>
 </head>
-<body style="margin:0; padding:0; background:#0a0e0c;">
+<body style="margin:0; padding:0;">
 <script>
 (async()=>{
-  try {
-    const r = await fetch('./index_render_connected.html', {cache:'no-store'});
-    let html = await r.text();
-    // 5119 мөртэй файлын доторх хог текстийг автоматаар цэвэрлэх
-    html = html.replace(/^<!doctype html>[\s\S]*?<body[^>]*>/i, '<!doctype html><html><head><meta charset="utf-8"></head><body>');
-    document.open(); 
-    document.write(html); 
-    document.close();
-  } catch(e) {
-    document.body.innerHTML = '<h1 style="color:red; text-align:center;">Алдаа: ' + e.message + '</h1>';
-  }
+  const r = await fetch('./index_render_connected.html?rollback=20261013', {cache:'no-store'});
+  const html = await r.text();
+  document.open(); document.write(html); document.close();
 })();
 </script>
 </body>
