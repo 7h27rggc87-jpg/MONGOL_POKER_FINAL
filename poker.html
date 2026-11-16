@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mongol Poker - Шинэ Сайт</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #0a0e0c; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  
+  .container { background: radial-gradient(circle at 50% 30%, #1a4d3a, #06120c); border: 2px solid #d4a017; border-radius: 12px; padding: 40px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(212,160,23,0.2); }
+  
+  .logo { font-size: 36px; color: #d4a017; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 10px rgba(212,160,23,0.5); }
+  
+  input { width: 100%; padding: 12px; margin: 10px 0; background: #0a1a12; border: 1px solid #0d5c3a; color: #fff; border-radius: 6px; font-size: 16px; }
+  
+  button { width: 100%; padding: 12px; background: linear-gradient(180deg, #d4a017, #a67c00); border: none; border-radius: 6px; color: #000; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+  
+  button:hover { filter: brightness(1.1); }
+</style>
+</head>
+<body>
 
+<div class="container">
+  <div class="logo">♠ MONGOL POKER ♥</div>
+  <input id="username" type="text" placeholder="Нэр (admin)" value="admin">
+  <input id="password" type="password" placeholder="Нууц үг (1234)" value="1234">
+  <button onclick="login()">Нэвтрэх</button>
+</div>
+
+<script>
+function login() {
+  const name = document.getElementById('username').value;
+  const pass = document.getElementById('password').value;
+  if(name === 'admin' && pass === '1234') {
+    alert('Амжилттай нэвтэрлээ! (Энэ бол шинэ сайтын эхлэл)');
+  } else {
+    alert('Нэр эсвэл нууц үг буруу! (admin / 1234)');
+  }
+}
+</script>
+</body>
+</html>
