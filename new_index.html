@@ -54,11 +54,12 @@
   .card.red { color: #d32f2f; }
   .card.blank { background: rgba(255,255,255,0.1); border: 2px dashed rgba(255,255,255,0.3); color: transparent; box-shadow: none; }
   
-  .action-bar { position: absolute; bottom: 20px; display: flex; gap: 20px; justify-content: center; width: 100%; }
-  .action-bar button { width: auto; padding: 15px 50px; font-size: 18px; }
+  .action-bar { position: absolute; bottom: 20px; display: flex; gap: 15px; justify-content: center; width: 100%; }
+  .action-bar button { width: auto; padding: 15px 40px; font-size: 16px; }
   .fold { background: #8b2e2e; color: #fff; }
   .check { background: #2e7d32; color: #fff; }
   .call { background: #1565c0; color: #fff; }
+  .raise { background: #d4a017; color: #000; }
 </style>
 </head>
 <body>
@@ -86,12 +87,6 @@
       <p style="margin:5px 0; color:#aaa;">Ботуудтай тоглох</p>
       <button style="margin-top:15px;">Нэгдэх</button>
     </div>
-    <div class="table-card" onclick="joinTable('Omaha 1')">
-      <h3 style="color:var(--gold); margin-bottom:10px; font-size:20px;">Omaha 1</h3>
-      <p style="margin:5px 0; color:#aaa;">Blinds: 100/200</p>
-      <p style="margin:5px 0; color:#aaa;">Ботуудтай тоглох</p>
-      <button style="margin-top:15px;">Нэгдэх</button>
-    </div>
   </div>
 </div>
 
@@ -113,6 +108,7 @@
       <button class="fold" onclick="action('fold')">Fold</button>
       <button class="check" onclick="action('check')">Check</button>
       <button class="call" onclick="action('call')">Call</button>
+      <button class="raise" onclick="action('raise')">Raise 200</button>
     </div>
   </div>
 </div>
@@ -124,8 +120,8 @@ let deck = [];
 let board = [];
 let pot = 0;
 let currentBet = 100;
-let turn = 0; // 0 = Player, 1,2,3 = Bots
-let stage = 0; // 0=preflop, 1=flop, 2=turn, 3=river
+let turn = 0; 
+let stage = 0; 
 let isPlaying = false;
 
 const suits = ['♠', '♥', '♦', '♣'];
@@ -176,9 +172,8 @@ function startGame(tableName) {
     { name: 'Тэмүүлэн', chips: 10000, cards: [deck.pop(), deck.pop()], isBot: true, folded: false }
   ];
   
-  document.getElementById('gameStatus').innerText = tableName + " • Таны ээлж (Call 100)";
+  document.getElementById('gameStatus').innerText = tableName + " • Таны ээлж";
   document.getElementById('actions').style.display = 'flex';
-  document.querySelector('#actions .call').innerText = 'Call 100';
   render();
 }
 
@@ -237,6 +232,12 @@ function action(type) {
   } else if(type === 'call') {
     pot += currentBet; 
     players[0].chips -= currentBet; 
+  } else if(type === 'check') {
+    // Check хийхэд мөнгө хасагдахгүй
+  } else if(type === 'raise') {
+    pot += 200; 
+    players[0].chips -= 200; 
+    currentBet = 200;
   }
   
   turn = 1;
@@ -270,10 +271,12 @@ function botTurn() {
   const p = players[turn];
   if(!p.folded) {
     const rand = Math.random();
-    if(rand < 0.2) {
-      p.folded = true;
-    } else if (rand < 0.6) {
+    if(rand < 0.3) {
+      pot += 200; p.chips -= 200; currentBet = 200;
+    } else if (rand < 0.7) {
       pot += 100; p.chips -= 100;
+    } else {
+      p.folded = true;
     }
   }
   
@@ -284,7 +287,8 @@ function botTurn() {
 
 function showdown() {
   let alivePlayers = players.filter(p => !p.folded);
-  let winner = alivePlayers[0];
+  let winnerIndex = Math.floor(Math.random() * alivePlayers.length);
+  let winner = alivePlayers[winnerIndex];
   
   document.getElementById('gameStatus').innerText = winner.name + " яллаа! +" + pot;
   
